@@ -1,6 +1,6 @@
-import { Email } from '../value-objects/email.vo';
-import { UserId } from '../value-objects/user-id.vo';
-import { User } from '../entities/user.entity';
+import { User } from '@domain/identity-access/entities/user.entity';
+import { UserId } from '@domain/identity-access/value-objects/user-id.vo';
+import { Email } from '@domain/identity-access/value-objects/email.vo';
 
 describe('User Entity', () => {
   it('should create a valid user', () => {

@@ -1,5 +1,5 @@
-import { ValueObject } from '../../shared/value-object';
-import { InvalidArgumentError } from '../../shared/exceptions/invalid-argument.error';
+import { ValueObject } from '@domain/shared/value-object';
+import { InvalidArgumentError } from '@domain/shared/exceptions/invalid-argument.error';
 
 interface EmailProps {
   value: string;

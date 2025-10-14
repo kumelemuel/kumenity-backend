@@ -1,5 +1,5 @@
-import { UserId } from '../value-objects/user-id.vo';
 import { randomUUID } from 'crypto';
+import { UserId } from '@domain/identity-access/value-objects/user-id.vo';
 
 describe('UserId Value Object', () => {
   it('should create a valid UUID', () => {

@@ -1,6 +1,6 @@
-import { ValueObject } from '../../shared/value-object';
 import { randomUUID } from 'crypto';
-import { InvalidArgumentError } from '../../shared/exceptions/invalid-argument.error';
+import { ValueObject } from '@domain/shared/value-object';
+import { InvalidArgumentError } from '@domain/shared/exceptions/invalid-argument.error';
 
 interface UserIdProps {
   value: string;

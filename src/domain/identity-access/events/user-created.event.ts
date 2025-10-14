@@ -1,6 +1,6 @@
-import { DomainEvent } from '../../shared/domain-event';
-import { UserId } from '../value-objects/user-id.vo';
-import { Email } from '../value-objects/email.vo';
+import { Email } from '@domain/identity-access/value-objects/email.vo';
+import { UserId } from '@domain/identity-access/value-objects/user-id.vo';
+import { DomainEvent } from '@domain/shared/domain-event';
 
 export class UserCreatedEvent extends DomainEvent {
   readonly userId: UserId;

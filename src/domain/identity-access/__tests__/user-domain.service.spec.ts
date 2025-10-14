@@ -1,7 +1,7 @@
-import { UserDomainService } from '../services/user-domain.service';
-import { UserId } from '../value-objects/user-id.vo';
-import { Email } from '../value-objects/email.vo';
-import { User } from '../entities/user.entity';
+import { User } from '@domain/identity-access/entities/user.entity';
+import { UserId } from '@domain/identity-access/value-objects/user-id.vo';
+import { Email } from '@domain/identity-access/value-objects/email.vo';
+import { UserDomainService } from '@domain/identity-access/services/user-domain.service';
 
 describe('UserDomainService', () => {
   it('should detect duplicate emails between users', () => {

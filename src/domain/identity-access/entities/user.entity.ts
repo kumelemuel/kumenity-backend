@@ -1,8 +1,8 @@
-import { UserId } from '../value-objects/user-id.vo';
-import { Email } from '../value-objects/email.vo';
-import { DomainEvent } from '../../shared/domain-event';
-import { UserCreatedEvent } from '../events/user-created.event';
-import { InvalidArgumentError } from '../../shared/exceptions/invalid-argument.error';
+import { UserId } from '@domain/identity-access/value-objects/user-id.vo';
+import { Email } from '@domain/identity-access/value-objects/email.vo';
+import { UserCreatedEvent } from '@domain/identity-access/events/user-created.event';
+import { DomainEvent } from '@domain/shared/domain-event';
+import { InvalidArgumentError } from '@domain/shared/exceptions/invalid-argument.error';
 
 interface UserProps {
   id: UserId;
@@ -13,7 +13,7 @@ interface UserProps {
 export class User {
   private domainEvents: DomainEvent[] = [];
 
-  private constructor(private readonly props: UserProps) {}
+  private constructor(readonly props: UserProps) {}
 
   get id(): UserId {
     return this.props.id;

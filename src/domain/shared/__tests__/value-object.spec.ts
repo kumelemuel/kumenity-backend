@@ -1,4 +1,4 @@
-import { ValueObject } from '../value-object';
+import { ValueObject } from '@domain/shared/value-object';
 
 interface NameProps {
   first: string;

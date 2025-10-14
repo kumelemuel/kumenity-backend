@@ -1,4 +1,4 @@
-import { User } from '../entities/user.entity';
+import { User } from '@domain/identity-access/entities/user.entity';
 
 export class UserDomainService {
   public static hasDuplicateEmail(users: User[]): boolean {
