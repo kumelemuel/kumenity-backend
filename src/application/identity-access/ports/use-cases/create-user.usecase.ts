@@ -2,7 +2,7 @@ import { User } from '@domain/identity-access/entities/user.entity';
 import { Email } from '@domain/identity-access/value-objects/email.vo';
 import { UserId } from '@domain/identity-access/value-objects/user-id.vo';
 import { UserAlreadyExistsError } from '@domain/identity-access/exceptions/user-alredy-exists.error';
-import { UserRepositoryPort } from '@application/identity-access/ports/user-repository.port';
+import { UserRepositoryPort } from '@application/identity-access/ports/repositories/user-repository.port';
 import { CreateUserDto } from '@application/identity-access/dto/create-user.dto';
 
 export class CreateUserUseCase {

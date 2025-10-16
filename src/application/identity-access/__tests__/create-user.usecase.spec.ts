@@ -1,6 +1,6 @@
 import { User } from '@domain/identity-access/entities/user.entity';
-import { CreateUserUseCase } from '@application/identity-access/use-cases/create-user.usecase';
-import { UserRepositoryPort } from '@application/identity-access/ports/user-repository.port';
+import { CreateUserUseCase } from '@application/identity-access/ports/use-cases/create-user.usecase';
+import { UserRepositoryPort } from '@application/identity-access/ports/repositories/user-repository.port';
 import { InvalidArgumentError } from '@domain/shared/exceptions/invalid-argument.error';
 import { UserAlreadyExistsError } from '@domain/identity-access/exceptions/user-alredy-exists.error';
 

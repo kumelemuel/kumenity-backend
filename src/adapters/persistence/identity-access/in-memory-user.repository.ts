@@ -1,5 +1,5 @@
 import { User } from '@domain/identity-access/entities/user.entity';
-import { UserRepositoryPort } from '@application/identity-access/ports/user-repository.port';
+import { UserRepositoryPort } from '@application/identity-access/ports/repositories/user-repository.port';
 import { UserId } from '@domain/identity-access/value-objects/user-id.vo';
 
 export class InMemoryUserRepository implements UserRepositoryPort {
