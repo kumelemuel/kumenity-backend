@@ -3,10 +3,14 @@ import { Email } from '@domain/identity-access/value-objects/email.vo';
 import { UserCreatedEvent } from '@domain/identity-access/events/user-created.event';
 import { DomainEvent } from '@domain/shared/domain-event';
 import { InvalidArgumentError } from '@domain/shared/exceptions/invalid-argument.error';
+import { Username } from '@domain/identity-access/value-objects/username.vo';
+import { UserStatus } from '@domain/identity-access/value-objects/user-status.vo';
 
 interface UserProps {
   id: UserId;
   email: Email;
+  username: Username;
+  status: UserStatus;
   createdAt: Date;
 }
 
@@ -23,13 +27,16 @@ export class User {
     return this.props.email;
   }
 
-  get createdAt(): Date {
-    return this.props.createdAt;
+  get username(): Username {
+    return this.props.username;
   }
 
   public static create(props: UserProps): User {
     if (!props.email) {
       throw new InvalidArgumentError('Email is required');
+    }
+    if (!props.username) {
+      throw new InvalidArgumentError('Username is required');
     }
 
     const user = new User({ ...props });

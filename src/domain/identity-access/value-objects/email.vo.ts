@@ -22,7 +22,7 @@ export class Email extends ValueObject<EmailProps> {
     return new Email({ value: value.toLowerCase() });
   }
 
-  private static isValid(value: string): boolean {
+  public static isValid(value: string): boolean {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(value);
   }

@@ -8,6 +8,7 @@ const mockUserRepository = (): jest.Mocked<UserRepositoryPort> => ({
   save: jest.fn(),
   findById: jest.fn(),
   findByEmail: jest.fn(),
+  findByUsername: jest.fn(),
 });
 
 describe('CreateUserUseCase', () => {
@@ -23,6 +24,17 @@ describe('CreateUserUseCase', () => {
     await expect(
       useCase.execute({
         email: 'not-an-email',
+        username: 'test.user',
+        password: '1234',
+      }),
+    ).rejects.toBeInstanceOf(InvalidArgumentError);
+  });
+
+  it('must be launched InvalidArgumentError if the username is invalid', async () => {
+    await expect(
+      useCase.execute({
+        email: 'user@example.com',
+        username: 'test',
         password: '1234',
       }),
     ).rejects.toBeInstanceOf(InvalidArgumentError);
@@ -33,16 +45,34 @@ describe('CreateUserUseCase', () => {
     repo.findByEmail.mockResolvedValueOnce({} as User);
 
     await expect(
-      useCase.execute({ email: validEmail, password: '1234' }),
+      useCase.execute({
+        email: validEmail,
+        username: 'test.user',
+        password: '1234',
+      }),
+    ).rejects.toBeInstanceOf(UserAlreadyExistsError);
+  });
+
+  it('must be launched UserAlreadyExistsError if the username already exists', async () => {
+    repo.findByEmail.mockResolvedValueOnce({} as User);
+
+    await expect(
+      useCase.execute({
+        email: 'user@example.com',
+        username: 'test.user',
+        password: '1234',
+      }),
     ).rejects.toBeInstanceOf(UserAlreadyExistsError);
   });
 
   it('must be create and save successfully an user if all its good', async () => {
     const validEmail = 'newuser@example.com';
+    const validUsername = 'test.user';
     repo.findByEmail.mockResolvedValueOnce(null);
 
     const result = await useCase.execute({
       email: validEmail,
+      username: validUsername,
       password: '1234',
     });
 
@@ -50,5 +80,6 @@ describe('CreateUserUseCase', () => {
     // eslint-disable-next-line @typescript-eslint/unbound-method
     expect(repo.save).toHaveBeenCalledTimes(1);
     expect(result.props.email.value).toBe(validEmail);
+    expect(result.props.username.value).toBe(validUsername);
   });
 });
