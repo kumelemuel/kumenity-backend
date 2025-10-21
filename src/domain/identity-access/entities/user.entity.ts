@@ -5,12 +5,15 @@ import { DomainEvent } from '@domain/shared/domain-event';
 import { InvalidArgumentError } from '@domain/shared/exceptions/invalid-argument.error';
 import { Username } from '@domain/identity-access/value-objects/username.vo';
 import { UserStatus } from '@domain/identity-access/value-objects/user-status.vo';
+import { Password } from '@domain/identity-access/value-objects/password.vo';
 
 interface UserProps {
   id: UserId;
   email: Email;
   username: Username;
+  password: Password;
   status: UserStatus;
+  authCode: number | null;
   createdAt: Date;
 }
 
@@ -31,12 +34,21 @@ export class User {
     return this.props.username;
   }
 
+  get status(): UserStatus {
+    return this.props.status;
+  }
+
   public static create(props: UserProps): User {
     if (!props.email) {
       throw new InvalidArgumentError('Email is required');
     }
+
     if (!props.username) {
       throw new InvalidArgumentError('Username is required');
+    }
+
+    if (!props.password) {
+      throw new InvalidArgumentError('Password is required');
     }
 
     const user = new User({ ...props });

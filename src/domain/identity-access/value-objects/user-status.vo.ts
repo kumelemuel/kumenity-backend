@@ -1,4 +1,5 @@
 import { InvalidArgumentError } from '@domain/shared/exceptions/invalid-argument.error';
+import { ValueObject } from '@domain/shared/value-object';
 
 export enum UserStatusEnum {
   ACTIVE = 'active',
@@ -7,34 +8,40 @@ export enum UserStatusEnum {
   PENDING = 'pending',
 }
 
-export class UserStatus {
-  private readonly value: UserStatusEnum;
+interface UserStatusProps {
+  value: UserStatusEnum;
+}
 
-  private constructor(value: UserStatusEnum) {
-    this.value = value;
+export class UserStatus extends ValueObject<UserStatusProps> {
+  private constructor(props: UserStatusProps) {
+    super(props);
+  }
+
+  get value(): UserStatusEnum {
+    return this.props.value;
   }
 
   public static create(value: string): UserStatus {
     if (!Object.values(UserStatusEnum).includes(value as UserStatusEnum)) {
       throw new InvalidArgumentError(`Invalid user status: ${value}`);
     }
-    return new UserStatus(value as UserStatusEnum);
+    return new UserStatus({ value: value as UserStatusEnum });
   }
 
   public static active(): UserStatus {
-    return new UserStatus(UserStatusEnum.ACTIVE);
+    return UserStatus.create('active');
   }
 
   public static inactive(): UserStatus {
-    return new UserStatus(UserStatusEnum.INACTIVE);
+    return UserStatus.create('inactive');
   }
 
   public static banned(): UserStatus {
-    return new UserStatus(UserStatusEnum.BANNED);
+    return UserStatus.create('banned');
   }
 
   public static pending(): UserStatus {
-    return new UserStatus(UserStatusEnum.PENDING);
+    return UserStatus.create('pending');
   }
 
   public equals(other: UserStatus): boolean {

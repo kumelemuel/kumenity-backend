@@ -1,6 +1,6 @@
 import { Body, Controller, HttpStatus, Post } from '@nestjs/common';
-import { CreateUserUseCase } from '@application/identity-access/ports/use-cases/create-user.usecase';
-import { CheckInUserUseCase } from '@application/identity-access/ports/use-cases/check-in-user.usecase';
+import { CreateUserUseCase } from '@application/identity-access/ports/inbound/create-user.usecase';
+import { CheckInUserUseCase } from '@application/identity-access/ports/inbound/check-in-user.usecase';
 
 @Controller('auth')
 class AuthController {
@@ -45,6 +45,7 @@ class AuthController {
         id: user.id.value,
         username: user.username.value,
         email: user.email.value,
+        status: user.status.value,
       },
     };
   }

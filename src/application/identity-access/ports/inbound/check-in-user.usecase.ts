@@ -1,5 +1,5 @@
 import { User } from '@domain/identity-access/entities/user.entity';
-import { UserRepositoryPort } from '@application/identity-access/ports/repositories/user-repository.port';
+import { UserRepositoryPort } from '@application/identity-access/ports/outbound/user-repository.port';
 import { CheckInUserDto } from '@application/identity-access/dto/check-in-user.dto';
 import { Email } from '@domain/identity-access/value-objects/email.vo';
 import { Username } from '@domain/identity-access/value-objects/username.vo';

@@ -1,9 +1,11 @@
 import { Module } from '@nestjs/common';
-import { InMemoryUserRepository } from '@adapters/persistence/identity-access/in-memory-user.repository';
-import { CreateUserUseCase } from '@application/identity-access/ports/use-cases/create-user.usecase';
-import { UserRepositoryPort } from '@application/identity-access/ports/repositories/user-repository.port';
-import AuthController from '@adapters/http/identity-access/auth.controller';
-import { CheckInUserUseCase } from '@application/identity-access/ports/use-cases/check-in-user.usecase';
+import { InMemoryUserRepository } from '@adapters/outbound/identity-access/in-memory-user.repository';
+import { CreateUserUseCase } from '@application/identity-access/ports/inbound/create-user.usecase';
+import { UserRepositoryPort } from '@application/identity-access/ports/outbound/user-repository.port';
+import AuthController from '@adapters/inbound/identity-access/auth.controller';
+import { CheckInUserUseCase } from '@application/identity-access/ports/inbound/check-in-user.usecase';
+import { HashGeneratorAdapter } from '@adapters/inbound/identity-access/hash-generator.adapter';
+import { HashGeneratorPort } from '@application/identity-access/ports/outbound/hash-generator.port';
 
 @Module({
   controllers: [AuthController],
@@ -13,9 +15,16 @@ import { CheckInUserUseCase } from '@application/identity-access/ports/use-cases
       useClass: InMemoryUserRepository,
     },
     {
+      provide: 'HashGenerator',
+      useClass: HashGeneratorAdapter,
+    },
+    {
       provide: CreateUserUseCase,
-      useFactory: (repo: UserRepositoryPort) => new CreateUserUseCase(repo),
-      inject: ['UserRepository'],
+      useFactory: (
+        repo: UserRepositoryPort,
+        hashGenerator: HashGeneratorPort,
+      ) => new CreateUserUseCase(repo, hashGenerator),
+      inject: ['UserRepository', 'HashGenerator'],
     },
     {
       provide: CheckInUserUseCase,

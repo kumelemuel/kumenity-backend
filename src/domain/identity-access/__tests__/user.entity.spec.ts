@@ -3,18 +3,24 @@ import { UserId } from '@domain/identity-access/value-objects/user-id.vo';
 import { Email } from '@domain/identity-access/value-objects/email.vo';
 import { UserStatus } from '@domain/identity-access/value-objects/user-status.vo';
 import { Username } from '@domain/identity-access/value-objects/username.vo';
+import { Password } from '@domain/identity-access/value-objects/password.vo';
 
 describe('User Entity', () => {
+  const valid_password =
+    '$2a$12$DIvmJUDVluP4xvSgJLSNxukhXU1TcFpp.exoMiIcJXvKCRSy33gI6';
   it('should create a valid user', () => {
     const user = User.create({
       id: UserId.create(),
       username: Username.create('test.user'),
       email: Email.create('user@example.com'),
+      password: Password.create(valid_password),
       createdAt: new Date(),
+      authCode: null,
       status: UserStatus.create('pending'),
     });
 
     expect(user.email.value).toBe('user@example.com');
+    expect(user.username.value).toBe('test.user');
     expect(user.id.value).toMatch(
       /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i,
     );
@@ -27,7 +33,9 @@ describe('User Entity', () => {
         username: Username.create('test.user'),
         // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         email: null as any,
+        password: Password.create(valid_password),
         createdAt: new Date(),
+        authCode: null,
         status: UserStatus.create('pending'),
       }),
     ).toThrow();
@@ -40,7 +48,24 @@ describe('User Entity', () => {
         // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         username: null as any,
         email: Email.create('user@example.com'),
+        password: Password.create(valid_password),
         createdAt: new Date(),
+        authCode: null,
+        status: UserStatus.create('pending'),
+      }),
+    ).toThrow();
+  });
+
+  it('should throw error when password is missing', () => {
+    expect(() =>
+      User.create({
+        id: UserId.create(),
+        username: Username.create('test.user'),
+        email: Email.create('user@example.com'),
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+        password: null as any,
+        createdAt: new Date(),
+        authCode: null,
         status: UserStatus.create('pending'),
       }),
     ).toThrow();
@@ -52,14 +77,18 @@ describe('User Entity', () => {
       id,
       email: Email.create('a@example.com'),
       username: Username.create('test.user'),
+      password: Password.create(valid_password),
       createdAt: new Date(),
+      authCode: null,
       status: UserStatus.create('pending'),
     });
     const user2 = User.create({
       id,
       email: Email.create('b@example.com'),
       username: Username.create('test.user'),
+      password: Password.create(valid_password),
       createdAt: new Date(),
+      authCode: null,
       status: UserStatus.create('pending'),
     });
 

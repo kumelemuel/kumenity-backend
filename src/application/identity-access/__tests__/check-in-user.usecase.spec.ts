@@ -1,12 +1,13 @@
 import { User } from '@domain/identity-access/entities/user.entity';
-import { UserRepositoryPort } from '@application/identity-access/ports/repositories/user-repository.port';
-import { CheckInUserUseCase } from '@application/identity-access/ports/use-cases/check-in-user.usecase';
+import { UserRepositoryPort } from '@application/identity-access/ports/outbound/user-repository.port';
+import { CheckInUserUseCase } from '@application/identity-access/ports/inbound/check-in-user.usecase';
 import { Email } from '@domain/identity-access/value-objects/email.vo';
 import { UserId } from '@domain/identity-access/value-objects/user-id.vo';
 import { Username } from '@domain/identity-access/value-objects/username.vo';
 import { UserStatus } from '@domain/identity-access/value-objects/user-status.vo';
 import { InvalidArgumentError } from '@domain/shared/exceptions/invalid-argument.error';
 import { UserNotExistsError } from '@domain/identity-access/exceptions/user-not-exists.error';
+import { Password } from '@domain/identity-access/value-objects/password.vo';
 
 const mockUserRepository = (): jest.Mocked<UserRepositoryPort> => ({
   save: jest.fn(),
@@ -14,6 +15,9 @@ const mockUserRepository = (): jest.Mocked<UserRepositoryPort> => ({
   findByEmail: jest.fn(),
   findByUsername: jest.fn(),
 });
+
+const valid_password =
+  '$2a$12$DIvmJUDVluP4xvSgJLSNxukhXU1TcFpp.exoMiIcJXvKCRSy33gI6';
 
 describe('CheckInUserUseCase', () => {
   let useCase: CheckInUserUseCase;
@@ -54,7 +58,9 @@ describe('CheckInUserUseCase', () => {
       id: UserId.create(),
       username: Username.create('test.user'),
       email: Email.create(validEmail),
+      password: Password.create(valid_password),
       createdAt: new Date(),
+      authCode: null,
       status: UserStatus.create('pending'),
     });
 
@@ -74,7 +80,9 @@ describe('CheckInUserUseCase', () => {
       id: UserId.create(),
       username: Username.create(validUsername),
       email: Email.create('newuser@example.com'),
+      password: Password.create(valid_password),
       createdAt: new Date(),
+      authCode: null,
       status: UserStatus.create('pending'),
     });
 
