@@ -1,12 +1,12 @@
 import { Module } from '@nestjs/common';
-import { InMemoryUserRepository } from '@adapters/outbound/identity-access/in-memory-user.repository';
-import { CreateUserUseCase } from '@application/identity-access/ports/inbound/create-user.usecase';
-import { UserRepositoryPort } from '@application/identity-access/ports/outbound/user-repository.port';
-import AuthController from '@adapters/inbound/identity-access/auth.controller';
-import { CheckInUserUseCase } from '@application/identity-access/ports/inbound/check-in-user.usecase';
-import { HashGeneratorAdapter } from '@adapters/inbound/identity-access/hash-generator.adapter';
-import { HashGeneratorPort } from '@application/identity-access/ports/outbound/hash-generator.port';
-import { ValidateUserUseCase } from '@application/identity-access/ports/inbound/validate-user.usecase';
+import { InMemoryUserRepository } from '../../contexts/identity-access/adapters/outbound/in-memory-user.repository';
+import { CreateUserUseCase } from '../../contexts/identity-access/application/ports/inbound/create-user.usecase';
+import { UserRepositoryPort } from '../../contexts/identity-access/application/ports/outbound/user-repository.port';
+import AuthController from '../../contexts/identity-access/adapters/inbound/auth.controller';
+import { CheckInUserUseCase } from '../../contexts/identity-access/application/ports/inbound/check-in-user.usecase';
+import { HashGeneratorAdapter } from '../../contexts/identity-access/adapters/inbound/hash-generator.adapter';
+import { HashGeneratorPort } from '../../contexts/identity-access/application/ports/outbound/hash-generator.port';
+import { ValidateUserUseCase } from '../../contexts/identity-access/application/ports/inbound/validate-user.usecase';
 
 @Module({
   controllers: [AuthController],
