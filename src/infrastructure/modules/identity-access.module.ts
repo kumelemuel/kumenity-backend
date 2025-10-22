@@ -6,6 +6,7 @@ import AuthController from '@adapters/inbound/identity-access/auth.controller';
 import { CheckInUserUseCase } from '@application/identity-access/ports/inbound/check-in-user.usecase';
 import { HashGeneratorAdapter } from '@adapters/inbound/identity-access/hash-generator.adapter';
 import { HashGeneratorPort } from '@application/identity-access/ports/outbound/hash-generator.port';
+import { ValidateUserUseCase } from '@application/identity-access/ports/inbound/validate-user.usecase';
 
 @Module({
   controllers: [AuthController],
@@ -29,6 +30,11 @@ import { HashGeneratorPort } from '@application/identity-access/ports/outbound/h
     {
       provide: CheckInUserUseCase,
       useFactory: (repo: UserRepositoryPort) => new CheckInUserUseCase(repo),
+      inject: ['UserRepository'],
+    },
+    {
+      provide: ValidateUserUseCase,
+      useFactory: (repo: UserRepositoryPort) => new ValidateUserUseCase(repo),
       inject: ['UserRepository'],
     },
   ],

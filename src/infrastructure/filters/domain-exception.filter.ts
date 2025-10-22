@@ -9,6 +9,8 @@ import { Response } from 'express';
 const errorMap = new Map([
   ['UserAlreadyExistsError', HttpStatus.CONFLICT],
   ['InvalidArgumentError', HttpStatus.BAD_REQUEST],
+  ['EntityNotFoundError', HttpStatus.NOT_FOUND],
+  ['UnauthorizedError', HttpStatus.UNAUTHORIZED],
 ]);
 
 @Catch()

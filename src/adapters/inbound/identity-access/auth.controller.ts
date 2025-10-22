@@ -1,12 +1,14 @@
 import { Body, Controller, HttpStatus, Post } from '@nestjs/common';
 import { CreateUserUseCase } from '@application/identity-access/ports/inbound/create-user.usecase';
 import { CheckInUserUseCase } from '@application/identity-access/ports/inbound/check-in-user.usecase';
+import { ValidateUserUseCase } from '@application/identity-access/ports/inbound/validate-user.usecase';
 
 @Controller('auth')
 class AuthController {
   constructor(
     private readonly createUserUseCase: CreateUserUseCase,
     private readonly checkInUserUseCase: CheckInUserUseCase,
+    private readonly validateUserUseCase: ValidateUserUseCase,
   ) {}
 
   @Post('sign-up')
@@ -28,6 +30,7 @@ class AuthController {
         id: user.id.value,
         username: user.username.value,
         email: user.email.value,
+        status: user.status.value,
       },
     };
   }
@@ -39,13 +42,28 @@ class AuthController {
     const user = await this.checkInUserUseCase.execute({ identifier });
 
     return {
-      statusCode: HttpStatus.OK,
+      statusCode: HttpStatus.FOUND,
       message: 'User found successfully',
       data: {
         id: user.id.value,
         username: user.username.value,
         email: user.email.value,
         status: user.status.value,
+      },
+    };
+  }
+
+  @Post('validate-user')
+  async validateUser(@Body() body: { id: string; code: number }): Promise<any> {
+    const { id, code } = body;
+
+    await this.validateUserUseCase.execute({ id, code });
+
+    return {
+      statusCode: HttpStatus.FOUND,
+      message: 'User found successfully',
+      data: {
+        status: 'active',
       },
     };
   }

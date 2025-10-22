@@ -94,4 +94,21 @@ describe('User Entity', () => {
 
     expect(user1.equals(user2)).toBe(true);
   });
+
+  it('should activate correctly an user', () => {
+    const user = User.create({
+      id: UserId.create(),
+      username: Username.create('test.user'),
+      email: Email.create('user@example.com'),
+      password: Password.create(valid_password),
+      createdAt: new Date(),
+      authCode: 123456,
+      status: UserStatus.create('pending'),
+    });
+
+    user.activate();
+
+    expect(user.authCode).toBe(null);
+    expect(user.status.value).toBe('active');
+  });
 });

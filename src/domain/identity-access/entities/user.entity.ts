@@ -34,6 +34,10 @@ export class User {
     return this.props.username;
   }
 
+  get authCode(): number | null {
+    return this.props.authCode;
+  }
+
   get status(): UserStatus {
     return this.props.status;
   }
@@ -65,6 +69,11 @@ export class User {
 
   public equals(other: User): boolean {
     return this.id.equals(other.id);
+  }
+
+  public activate(): void {
+    this.props.authCode = null;
+    this.props.status = UserStatus.create('active');
   }
 
   private addDomainEvent(event: DomainEvent): void {
