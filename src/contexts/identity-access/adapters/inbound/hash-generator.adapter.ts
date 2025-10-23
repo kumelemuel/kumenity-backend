@@ -1,4 +1,4 @@
-import { HashGeneratorPort } from '../../application/ports/outbound/hash-generator.port';
+import { HashGeneratorPort } from '../../application/ports/out/hash-generator.port';
 import * as bcrypt from 'bcrypt';
 
 const saltOrRounds = 10;

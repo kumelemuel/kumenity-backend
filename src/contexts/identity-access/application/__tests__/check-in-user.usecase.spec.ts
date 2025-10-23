@@ -1,6 +1,6 @@
 import { User } from '../../domain/entities/user.entity';
-import { UserRepositoryPort } from '../ports/outbound/user-repository.port';
-import { CheckInUserUseCase } from '../ports/inbound/check-in-user.usecase';
+import { UserRepositoryPort } from '../ports/out/user-repository.port';
+import { CheckInUserUseCase } from '../use-cases/check-in-user.usecase';
 import { Email } from '../../domain/value-objects/email.vo';
 import { UserId } from '../../domain/value-objects/user-id.vo';
 import { Username } from '../../domain/value-objects/username.vo';

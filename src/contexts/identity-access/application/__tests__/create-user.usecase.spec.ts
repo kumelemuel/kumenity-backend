@@ -1,9 +1,9 @@
 import { User } from '../../domain/entities/user.entity';
-import { CreateUserUseCase } from '../ports/inbound/create-user.usecase';
-import { UserRepositoryPort } from '../ports/outbound/user-repository.port';
+import { CreateUserUseCase } from '../use-cases/create-user.usecase';
+import { UserRepositoryPort } from '../ports/out/user-repository.port';
 import { InvalidArgumentError } from '../../../../shared/exceptions/invalid-argument.error';
 import { UserAlreadyExistsError } from '../../domain/exceptions/user-alredy-exists.error';
-import { HashGeneratorPort } from '../ports/outbound/hash-generator.port';
+import { HashGeneratorPort } from '../ports/out/hash-generator.port';
 
 const mockUserRepository = (): jest.Mocked<UserRepositoryPort> => ({
   save: jest.fn(),

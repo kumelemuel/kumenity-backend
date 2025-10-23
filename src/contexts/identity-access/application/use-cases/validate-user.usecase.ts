@@ -1,12 +1,13 @@
-import { UserRepositoryPort } from '../outbound/user-repository.port';
-import { ValidateUserDto } from '../../dto/validate-user.dto';
-import { UserId } from '../../../domain/value-objects/user-id.vo';
-import { EntityNotFoundError } from '../../../../../shared/exceptions/entity-not-found.error';
-import { UserStatus } from '../../../domain/value-objects/user-status.vo';
-import { InvalidArgumentError } from '../../../../../shared/exceptions/invalid-argument.error';
-import { UnauthorizedError } from '../../../../../shared/exceptions/unauthorized.error';
+import { UserRepositoryPort } from '../ports/out/user-repository.port';
+import { ValidateUserDto } from '../dto/validate-user.dto';
+import { UserId } from '../../domain/value-objects/user-id.vo';
+import { EntityNotFoundError } from '../../../../shared/exceptions/entity-not-found.error';
+import { UserStatus } from '../../domain/value-objects/user-status.vo';
+import { InvalidArgumentError } from '../../../../shared/exceptions/invalid-argument.error';
+import { UnauthorizedError } from '../../../../shared/exceptions/unauthorized.error';
+import { ValidateUserPort } from '../ports/in/validate-user.port';
 
-export class ValidateUserUseCase {
+export class ValidateUserUseCase implements ValidateUserPort {
   constructor(private readonly userRepository: UserRepositoryPort) {}
 
   async execute(input: ValidateUserDto): Promise<boolean> {

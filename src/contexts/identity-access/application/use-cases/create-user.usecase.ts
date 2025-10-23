@@ -1,16 +1,17 @@
-import { User } from '../../../domain/entities/user.entity';
-import { Email } from '../../../domain/value-objects/email.vo';
-import { UserId } from '../../../domain/value-objects/user-id.vo';
-import { UserAlreadyExistsError } from '../../../domain/exceptions/user-alredy-exists.error';
-import { UserRepositoryPort } from '../outbound/user-repository.port';
-import { CreateUserDto } from '../../dto/create-user.dto';
-import { UserStatus } from '../../../domain/value-objects/user-status.vo';
-import { Username } from '../../../domain/value-objects/username.vo';
-import { Password } from '../../../domain/value-objects/password.vo';
-import { HashGeneratorPort } from '../outbound/hash-generator.port';
-import { InvalidArgumentError } from '../../../../../shared/exceptions/invalid-argument.error';
+import { User } from '../../domain/entities/user.entity';
+import { Email } from '../../domain/value-objects/email.vo';
+import { UserId } from '../../domain/value-objects/user-id.vo';
+import { UserAlreadyExistsError } from '../../domain/exceptions/user-alredy-exists.error';
+import { UserRepositoryPort } from '../ports/out/user-repository.port';
+import { CreateUserDto } from '../dto/create-user.dto';
+import { UserStatus } from '../../domain/value-objects/user-status.vo';
+import { Username } from '../../domain/value-objects/username.vo';
+import { Password } from '../../domain/value-objects/password.vo';
+import { HashGeneratorPort } from '../ports/out/hash-generator.port';
+import { InvalidArgumentError } from '../../../../shared/exceptions/invalid-argument.error';
+import { CreateUserPort } from '../ports/in/create-user.port';
 
-export class CreateUserUseCase {
+export class CreateUserUseCase implements CreateUserPort {
   constructor(
     private readonly userRepository: UserRepositoryPort,
     private readonly hashGenerator: HashGeneratorPort,

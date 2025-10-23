@@ -1,6 +1,6 @@
-import { UserRepositoryPort } from '../ports/outbound/user-repository.port';
+import { UserRepositoryPort } from '../ports/out/user-repository.port';
 import { InvalidArgumentError } from '../../../../shared/exceptions/invalid-argument.error';
-import { ValidateUserUseCase } from '../ports/inbound/validate-user.usecase';
+import { ValidateUserUseCase } from '../use-cases/validate-user.usecase';
 import { EntityNotFoundError } from '../../../../shared/exceptions/entity-not-found.error';
 import { User } from '../../domain/entities/user.entity';
 import { UserId } from '../../domain/value-objects/user-id.vo';

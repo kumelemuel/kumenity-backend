@@ -1,12 +1,13 @@
-import { User } from '../../../domain/entities/user.entity';
-import { UserRepositoryPort } from '../outbound/user-repository.port';
-import { CheckInUserDto } from '../../dto/check-in-user.dto';
-import { Email } from '../../../domain/value-objects/email.vo';
-import { Username } from '../../../domain/value-objects/username.vo';
-import { UserNotExistsError } from '../../../domain/exceptions/user-not-exists.error';
-import { InvalidArgumentError } from '../../../../../shared/exceptions/invalid-argument.error';
+import { User } from '../../domain/entities/user.entity';
+import { UserRepositoryPort } from '../ports/out/user-repository.port';
+import { CheckInUserDto } from '../dto/check-in-user.dto';
+import { Email } from '../../domain/value-objects/email.vo';
+import { Username } from '../../domain/value-objects/username.vo';
+import { UserNotExistsError } from '../../domain/exceptions/user-not-exists.error';
+import { InvalidArgumentError } from '../../../../shared/exceptions/invalid-argument.error';
+import { CheckInUserPort } from '../ports/in/check-in-user.port';
 
-export class CheckInUserUseCase {
+export class CheckInUserUseCase implements CheckInUserPort {
   constructor(private readonly userRepository: UserRepositoryPort) {}
 
   async execute(input: CheckInUserDto): Promise<User> {

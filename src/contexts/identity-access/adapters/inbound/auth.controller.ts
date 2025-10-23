@@ -1,14 +1,18 @@
-import { Body, Controller, HttpStatus, Post } from '@nestjs/common';
-import { CreateUserUseCase } from '../../application/ports/inbound/create-user.usecase';
-import { CheckInUserUseCase } from '../../application/ports/inbound/check-in-user.usecase';
-import { ValidateUserUseCase } from '../../application/ports/inbound/validate-user.usecase';
+import { Body, Controller, HttpStatus, Inject, Post } from '@nestjs/common';
+import type { CreateUserPort } from '../../application/ports/in/create-user.port';
+import type { CheckInUserPort } from '../../application/ports/in/check-in-user.port';
+import type { ValidateUserPort } from '../../application/ports/in/validate-user.port';
+import { TOKENS } from '@infrastructure/tokens/tokens';
 
 @Controller('auth')
 class AuthController {
   constructor(
-    private readonly createUserUseCase: CreateUserUseCase,
-    private readonly checkInUserUseCase: CheckInUserUseCase,
-    private readonly validateUserUseCase: ValidateUserUseCase,
+    @Inject(TOKENS.CREATE_USER_PORT)
+    private readonly createUserUseCase: CreateUserPort,
+    @Inject(TOKENS.CHECK_IN_USER_PORT)
+    private readonly checkInUserUseCase: CheckInUserPort,
+    @Inject(TOKENS.VALIDATE_USER_PORT)
+    private readonly validateUserUseCase: ValidateUserPort,
   ) {}
 
   @Post('sign-up')

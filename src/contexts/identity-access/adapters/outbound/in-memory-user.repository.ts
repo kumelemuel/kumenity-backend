@@ -1,5 +1,5 @@
 import { User } from '../../domain/entities/user.entity';
-import { UserRepositoryPort } from '../../application/ports/outbound/user-repository.port';
+import { UserRepositoryPort } from '../../application/ports/out/user-repository.port';
 import { UserId } from '../../domain/value-objects/user-id.vo';
 import { Email } from '../../domain/value-objects/email.vo';
 import { Username } from '../../domain/value-objects/username.vo';
