@@ -1,4 +1,4 @@
 export interface ValidateUserDto {
-  id: string;
+  username: string;
   code: number;
 }

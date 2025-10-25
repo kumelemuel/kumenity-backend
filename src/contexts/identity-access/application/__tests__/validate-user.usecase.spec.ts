@@ -1,5 +1,4 @@
 import { UserRepositoryPort } from '../ports/out/user-repository.port';
-import { InvalidArgumentError } from '../../../../shared/exceptions/invalid-argument.error';
 import { ValidateUserUseCase } from '../use-cases/validate-user.usecase';
 import { EntityNotFoundError } from '../../../../shared/exceptions/entity-not-found.error';
 import { User } from '../../domain/entities/user.entity';
@@ -29,27 +28,18 @@ describe('ValidateUserUseCase', () => {
     useCase = new ValidateUserUseCase(repo);
   });
 
-  it('must be launched InvalidArgumentError if the user ID is invalid', async () => {
-    await expect(
-      useCase.execute({
-        id: '1414141',
-        code: 123456,
-      }),
-    ).rejects.toBeInstanceOf(InvalidArgumentError);
-  });
-
-  it('must be launched EntityNotFoundError if the user ID not exists', async () => {
-    repo.findById.mockResolvedValueOnce(null);
+  it('must be launched EntityNotFoundError if the username not exists', async () => {
+    repo.findByUsername.mockResolvedValueOnce(null);
 
     await expect(
       useCase.execute({
-        id: 'c52de6fa-397e-4de1-9f64-8c911291ff66',
+        username: 'test.user',
         code: 123456,
       }),
     ).rejects.toBeInstanceOf(EntityNotFoundError);
   });
 
-  it('must be launched InvalidArgumentError if the user ID exists but not have a status pending', async () => {
+  it('must be launched UnauthorizedError if the user ID exists but not have a status pending', async () => {
     const existingUser = User.create({
       id: UserId.create(),
       username: Username.create('test.user'),
@@ -60,14 +50,14 @@ describe('ValidateUserUseCase', () => {
       status: UserStatus.create('banned'),
     });
 
-    repo.findById.mockResolvedValueOnce(existingUser);
+    repo.findByUsername.mockResolvedValueOnce(existingUser);
 
     await expect(
       useCase.execute({
-        id: 'c52de6fa-397e-4de1-9f64-8c911291ff66',
+        username: 'test.user',
         code: 123456,
       }),
-    ).rejects.toBeInstanceOf(InvalidArgumentError);
+    ).rejects.toBeInstanceOf(UnauthorizedError);
   });
 
   it('must be launched UnauthorizedError if the user ID exists and have a status pending, but the code es invalid', async () => {
@@ -81,11 +71,11 @@ describe('ValidateUserUseCase', () => {
       status: UserStatus.create('pending'),
     });
 
-    repo.findById.mockResolvedValueOnce(existingUser);
+    repo.findByUsername.mockResolvedValueOnce(existingUser);
 
     await expect(
       useCase.execute({
-        id: 'c52de6fa-397e-4de1-9f64-8c911291ff66',
+        username: 'test.user',
         code: 654321,
       }),
     ).rejects.toBeInstanceOf(UnauthorizedError);

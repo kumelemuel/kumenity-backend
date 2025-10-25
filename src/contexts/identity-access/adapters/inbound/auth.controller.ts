@@ -34,9 +34,7 @@ class AuthController {
       statusCode: HttpStatus.CREATED,
       message: 'User created successfully',
       data: {
-        id: user.id.value,
         username: user.username.value,
-        email: user.email.value,
         status: user.status.value,
       },
     };
@@ -52,19 +50,19 @@ class AuthController {
       statusCode: HttpStatus.FOUND,
       message: 'User found successfully',
       data: {
-        id: user.id.value,
         username: user.username.value,
-        email: user.email.value,
         status: user.status.value,
       },
     };
   }
 
   @Post('validate-user')
-  async validateUser(@Body() body: { id: string; code: number }): Promise<any> {
-    const { id, code } = body;
+  async validateUser(
+    @Body() body: { username: string; code: number },
+  ): Promise<any> {
+    const { username, code } = body;
 
-    await this.validateUserUseCase.execute({ id, code });
+    await this.validateUserUseCase.execute({ username, code });
 
     return {
       statusCode: HttpStatus.OK,
