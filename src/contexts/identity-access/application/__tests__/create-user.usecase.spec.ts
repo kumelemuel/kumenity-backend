@@ -14,6 +14,7 @@ const mockUserRepository = (): jest.Mocked<UserRepositoryPort> => ({
 
 const mockHashGenerator = (): jest.Mocked<HashGeneratorPort> => ({
   generate: jest.fn(),
+  compare: jest.fn(),
 });
 
 const valid_password =

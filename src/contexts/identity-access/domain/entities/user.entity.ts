@@ -34,6 +34,10 @@ export class User {
     return this.props.username;
   }
 
+  get password(): Password {
+    return this.props.password;
+  }
+
   get authCode(): number | null {
     return this.props.authCode;
   }

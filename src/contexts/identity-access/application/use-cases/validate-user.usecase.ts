@@ -25,7 +25,7 @@ export class ValidateUserUseCase implements ValidateUserPort {
       throw new InvalidArgumentError('User is not in status pending');
     }
 
-    if (user.authCode !== code) {
+    if (user.authCode != code) {
       throw new UnauthorizedError('Invalid code');
     }
 

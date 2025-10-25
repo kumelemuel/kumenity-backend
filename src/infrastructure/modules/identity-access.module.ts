@@ -8,6 +8,9 @@ import { HashGeneratorAdapter } from '../../contexts/identity-access/adapters/in
 import { HashGeneratorPort } from '../../contexts/identity-access/application/ports/out/hash-generator.port';
 import { ValidateUserUseCase } from '../../contexts/identity-access/application/use-cases/validate-user.usecase';
 import { TOKENS } from '@infrastructure/tokens/tokens';
+import { JwtTokenGeneratorAdapter } from '../../contexts/identity-access/adapters/inbound/token-generator.adapter';
+import { SignInUserUsecase } from '../../contexts/identity-access/application/use-cases/sign-in-user.usecase';
+import { TokenGeneratorPort } from '../../contexts/identity-access/application/ports/out/token-generator.port';
 
 @Module({
   controllers: [AuthController],
@@ -19,6 +22,10 @@ import { TOKENS } from '@infrastructure/tokens/tokens';
     {
       provide: 'HashGenerator',
       useClass: HashGeneratorAdapter,
+    },
+    {
+      provide: 'TokenGenerator',
+      useClass: JwtTokenGeneratorAdapter,
     },
     {
       provide: TOKENS.CREATE_USER_PORT,
@@ -38,11 +45,21 @@ import { TOKENS } from '@infrastructure/tokens/tokens';
       useFactory: (repo: UserRepositoryPort) => new ValidateUserUseCase(repo),
       inject: ['UserRepository'],
     },
+    {
+      provide: TOKENS.SIGN_IN_USER_PORT,
+      useFactory: (
+        repo: UserRepositoryPort,
+        hashGenerator: HashGeneratorPort,
+        tokenGenerator: TokenGeneratorPort,
+      ) => new SignInUserUsecase(repo, hashGenerator, tokenGenerator),
+      inject: ['UserRepository', 'HashGenerator', 'TokenGenerator'],
+    },
   ],
   exports: [
     TOKENS.CREATE_USER_PORT,
     TOKENS.CHECK_IN_USER_PORT,
     TOKENS.VALIDATE_USER_PORT,
+    TOKENS.SIGN_IN_USER_PORT,
   ],
 })
 export class IdentityAccessModule {}
